@@ -3,6 +3,9 @@ import { Platform, NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
+import { ListPage } from '../pages/list/list';
+import { DetailPage } from '../pages/detail/detail';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -20,13 +23,28 @@ export class MyApp {
   }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.nav.push('Detail', {
-        id: '6766',
-        name: 'test'
-      })
-    }, 2000)
+    this.goToPage();
   }
 
+  goToPage() {
+    setTimeout(() => {
+      this.nav.insertPages(this.nav.length(), [
+        {
+          page: ListPage,
+          params: {}
+        },
+        {
+          page: DetailPage,
+          params: {
+            name: 'hey',
+            id: 'hey'
+          }
+        }
+      ], {
+          animate: false
+        })
+        .then(res => console.log(this.nav.getViews()))
+        .catch(err => console.error(err))
+    }, 2000);
+  }
 }
-
